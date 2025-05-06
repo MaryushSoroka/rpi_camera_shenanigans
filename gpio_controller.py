@@ -19,6 +19,6 @@ class GPIO_CONTROLLER:
     def toggle_pin(self, pin_num):
         assert pin_num in PINS
         old_state = self.pin_states[pin_num]
-        # GPIO.output(pin_num, GPIO.LOW if old_state else GPIO.HIGH)
+        GPIO.output(pin_num, GPIO.LOW if old_state else GPIO.HIGH)
         print(f"Toggle gpio {pin_num}({pin_num.value}): {old_state}->{not old_state}")
         self.pin_states[pin_num] = not old_state
