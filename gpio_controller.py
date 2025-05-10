@@ -10,11 +10,11 @@ class PINS(Enum):
     BOTTOM = 23
     CAMERA = 24
 
+
 class GPIO_CONTROLLER:
     def __init__(self):
-        # Initialize all pins to GPIO.LOW aka False
+        # Initialize all pins to INACTIVE aka False
         self.pin_states = {pin_num: False for pin_num in PINS}
-        # self.chip = gpiod.Chip("/dev/gpiochip0")
         self.lines = gpiod.request_lines(
             "/dev/gpiochip0",
             config={l.value: gpiod.LineSettings(direction=Direction.OUTPUT, output_value=Value.INACTIVE) for l in PINS}
@@ -28,4 +28,4 @@ class GPIO_CONTROLLER:
         self.pin_states[pin_num] = not old_state
 
     def __del__(self):
-        self.lines.close()
+        self.lines.release()
