@@ -1,5 +1,7 @@
 from enum import Enum
-import RPi.GPIO as GPIO
+import gpiod
+from gpiod.line import Direction, Value
+
 
 class PINS(Enum):
     LEFT = 14
@@ -12,13 +14,18 @@ class GPIO_CONTROLLER:
     def __init__(self):
         # Initialize all pins to GPIO.LOW aka False
         self.pin_states = {pin_num: False for pin_num in PINS}
-        GPIO.setmode(GPIO.BOARD)
-        for pin_num in PINS:
-            GPIO.setup(pin_num, GPIO.OUT, initial=GPIO.LOW)
+        # self.chip = gpiod.Chip("/dev/gpiochip0")
+        self.lines = gpiod.request_lines(
+            "/dev/gpiochip0",
+            config={l.value: gpiod.LineSettings(direction=Direction.OUTPUT, output_value=Value.INACTIVE) for l in PINS}
+        )
 
     def toggle_pin(self, pin_num):
         assert pin_num in PINS
         old_state = self.pin_states[pin_num]
-        GPIO.output(pin_num, GPIO.LOW if old_state else GPIO.HIGH)
+        self.lines.set_value(pin_num.value, Value.INACTIVE if old_state else Value.ACTIVE)
         print(f"Toggle gpio {pin_num}({pin_num.value}): {old_state}->{not old_state}")
         self.pin_states[pin_num] = not old_state
+
+    def __del__(self):
+        self.lines.close()
