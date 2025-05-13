@@ -1,5 +1,7 @@
-from PySide6.QtWidgets import QLabel
-from PySide6.QtCore import QTimer
+from PyQt5.QtWidgets import QLabel
+from PyQt5.QtCore import QTimer
+# from PySide6.QtWidgets import QLabel
+# from PySide6.QtCore import QTimer
 
 class FPSCounter:
     def __init__(self, parent=None, update_interval=1000):

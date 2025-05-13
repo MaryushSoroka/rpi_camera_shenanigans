@@ -4,9 +4,12 @@ import sys
 from picamera2 import Picamera2
 from picamera2.previews.qt import QGlPicamera2
 
-from PySide6.QtCore import Qt, QTimer
-from PySide6.QtGui import QImage, QPixmap
-from PySide6.QtWidgets import QApplication, QMainWindow, QLabel, QVBoxLayout, QPushButton, QDialog, QSlider, QHBoxLayout, QWidget, QTextEdit, QSplitter
+from PyQt5.QtCore import Qt, QTimer
+# from PySide6.QtCore import Qt, QTimer
+from PyQt5.QtGui import QImage, QPixmap
+# from PySide6.QtGui import QImage, QPixmap
+from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QVBoxLayout, QPushButton, QDialog, QSlider, QHBoxLayout, QWidget, QTextEdit, QSplitter
+# from PySide6.QtWidgets import QApplication, QMainWindow, QLabel, QVBoxLayout, QPushButton, QDialog, QSlider, QHBoxLayout, QWidget, QTextEdit, QSplitter
 
 from gpio_controller import GPIO_CONTROLLER, PINS
 from fps_counter import FPSCounter
@@ -71,7 +74,7 @@ class EyeTrackingUI(QMainWindow):
 
         # GPIO control buttons
         self.gpio_controller = GPIO_CONTROLLER()
-        
+
         self.left_button = QPushButton("Left", self)
         self.left_button.setStyleSheet("background-color: #444; color: white; font-size: 14px;")
         self.left_button.clicked.connect(lambda: self.gpio_controller.toggle_pin(PINS.LEFT))
@@ -79,15 +82,15 @@ class EyeTrackingUI(QMainWindow):
         self.right_button = QPushButton("Right", self)
         self.right_button.setStyleSheet("background-color: #444; color: white; font-size: 14px;")
         self.right_button.clicked.connect(lambda: self.gpio_controller.toggle_pin(PINS.RIGHT))
-        
+
         self.top_button = QPushButton("Top", self)
         self.top_button.setStyleSheet("background-color: #444; color: white; font-size: 14px;")
         self.top_button.clicked.connect(lambda: self.gpio_controller.toggle_pin(PINS.TOP))
-        
+
         self.bottom_button = QPushButton("Bottom", self)
         self.bottom_button.setStyleSheet("background-color: #444; color: white; font-size: 14px;")
         self.bottom_button.clicked.connect(lambda: self.gpio_controller.toggle_pin(PINS.BOTTOM))
-        
+
         self.camera_button = QPushButton("Camera", self)
         self.camera_button.setStyleSheet("background-color: #444; color: white; font-size: 14px;")
         self.camera_button.clicked.connect(lambda: self.gpio_controller.toggle_pin(PINS.CAMERA))
@@ -140,13 +143,13 @@ class EyeTrackingUI(QMainWindow):
     def resizeEvent(self, event):
         self.log_widget.log(f"{self.centralWidget().size()=}")
         return super().resizeEvent(event)
-    
+
     def keyPressEvent(self, event):
         """Handle keypress events."""
         if event.key() == Qt.Key_F11:
             self.toggle_window_mode()
         elif event.key() == Qt.Key_Escape:
-            self.cap.release()
+            # self.cap.release()
             self.close()
 
     # def update_frame(self):
